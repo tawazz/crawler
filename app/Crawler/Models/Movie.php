@@ -20,6 +20,8 @@ class Movie extends Model
       $movie->image = $movie_image;
       $movie->url =$resolve_url;
       $movie->episode_url = $episode_url;
+      $movie->ads_hash = $episodes[0]["ads_hash"];
+      $movie->ads_token = $episodes[0]["ads_token"];
       $movie->save();
       foreach ($episodes as $episode) {
         foreach ($episode["info"] as $info) {

@@ -1,23 +1,36 @@
-{% extends 'templates/default.php' %}
+{% extends 'templates/bootstrap.php' %}
 
 {% block content %}
   <div class="white-space">
-
-      {% for movie in movies %}
-      <img src="{{movie.image}}" alt="artwork" />
-      <h2>{{movie.title}} Links</h2>
-        {% for info in movie.info %}
-          {% if info.quality != null %}
-            <li> <a href="{{info.file_url}}" url="{{info.file_url}}" target="_blank">{{info.title}} {{info.quality}}</a></li>
+    <div class="card" style="padding:20px;">
+      <img class="img-thumbnail center-block" style="padding:20px;" src="{{movie.image}}" alt="Card image cap">
+      <div class="card-blockk">
+          <h4 class="card-title" style="text-align:center;padding-top:10px;">{{movie.title}} Links</h4>
+      </div>
+    </div>
+      <ul class="list-group">
+        {% for link in links %}
+          {% if link.quality != null %}
+            <li class="list-group-item"> <a href="{{link.url}}" target="_blank">{{link.title}} {{link.quality}}</a></li>
           {% endif %}
         {% endfor %}
-      {% endfor %}
+      </ul>
   </div>
 {% endblock %}
 {% block js %}
 
-  <script type="text/javascript">
-    var link = $('a[download]');
-  </script>
+<script type="text/javascript">
+var cookieName = '{{movie.ads_hash}}';
+var cookieValue = '{{movie.ads_token}}';
+var myDate = new Date();
+myDate.setMonth(myDate.getDay() + 1);
+if (document.cookie.indexOf(cookieName) >= 0) {
+  // They've been here before.
+}else{
+  document.cookie = cookieName +"=" + cookieValue + ";expires=" + myDate
+                    + ";domain='.123movies.to';path='/''";
+}
+
+</script>
 
 {% endblock %}

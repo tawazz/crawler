@@ -3,7 +3,7 @@
             <div class="footer-above">
                 <div class="container">
                     <div class="row">
-                        <div class="footer-col col-sm-8 col col-sm-offset-2">
+                        <div class="footer-col col-sm-12">
                           <div class="footer-col col-sm-6">
                               <h3>Around the Web</h3>
                               <ul class="list-inline">

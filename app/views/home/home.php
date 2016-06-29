@@ -1,19 +1,21 @@
-{% extends 'templates/foundation.php' %}
+{% extends 'templates/bootstrap.php' %}
 
 {% block content %}
   <div class="row">
     {% for movie in movies %}
-      <div class="medium-3 columns">
-            <div class="row">
-              <div class="small-12 columns">
-                <div class="thumbnail">
-                    <img src="{{movie.image}}" alt="artwork" width="200" />
-                </div>
-              </div>
-              <div class="small-12 columns">
-                  <a href="{{ urlFor('view',{'id': movie.id } ) }}">{{movie.title}}</a>
-              </div>
-            </div>
+      <div class="col-sm-3">
+        <div class="card">
+          <!--Card image-->
+          <a href="{{ urlFor('view',{'id': movie.id } ) }}"><img class="img-fluid" src="{{movie.image}}"  width="100%" alt="Card image cap"/></a>
+          <!--/.Card image-->
+
+          <!--Card content-->
+          <div class="card-block">
+              <!--Title-->
+                <a href="{{ urlFor('view',{'id': movie.id } ) }}" ><h4 class="card-title" style="max-height:48px;min-height:48px; text-overflow:epilips;">{{movie.title}}</h4></a>
+          </div>
+          <!--/.Card content-->
+        </div>
       </div>
     {% endfor%}
   </div>

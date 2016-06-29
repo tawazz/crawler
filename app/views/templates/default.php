@@ -20,15 +20,14 @@
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="{{baseUrl()}}/css/normalize.css">
-  <link rel="stylesheet" href="{{baseUrl()}}/css/skeleton.css">
+  <link rel="stylesheet" href="{{baseUrl()}}/css/bootstrap.min.css">
   <!--link rel="stylesheet" href="{{baseUrl()}}/css/custom.css"-->
   <link rel="stylesheet" href="{{baseUrl()}}/css/style.css">
 	{% block css %}{% endblock %}
 
   <!-- Scripts
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script type="text/javascript" src="{{baseUrl()}}/js/site.js"></script>
+  {% include 'parts/scripts.php'%}
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -36,8 +35,7 @@
 
 </head>
 <body>
-
-{% include 'parts/nav.php' %}
+  {% include 'parts/nav.php'%}
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		{% block content %}
