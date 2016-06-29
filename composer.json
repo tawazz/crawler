@@ -1,0 +1,14 @@
+{
+    "require": {
+        "slim/slim": "2.*",
+        "slim/slim-skeleton": "2.1",
+        "slim/views": "0.1.*",
+        "fabpot/goutte": "^3.1",
+        "illuminate/database": "^5.2"
+    },
+    "autoload":{
+      "psr-4":{
+        "Crawler\\":"app/Crawler"
+      }
+    }
+}
