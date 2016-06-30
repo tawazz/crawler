@@ -15,10 +15,9 @@ $app->get('/view/:id',function($id) use ($app){
     $links = $app->Link->where('movie_id',$id)->get();
     $app->render('home/result.php',["movie"=>$movie,"links"=>$links]);
   }else{
-    echo "Refreshing...";
     crawl($app,$movie->url);
     $movie = $app->Movie->where("url",$movie->url)->first();
-    $links = $app->Link->where('movie_id',$id)->get();
+    $links = $app->Link->where('movie_id',$movie->id)->get();
     $app->render('home/result.php',["movie"=>$movie,"links"=>$links]);
   }
 
