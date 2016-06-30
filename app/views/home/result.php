@@ -11,7 +11,7 @@
       <ul class="list-group">
         {% for link in links %}
           {% if link.quality != null %}
-            <li class="list-group-item"> <a href="{{link.url}}" target="_blank">{{link.title}} {{link.quality}}</a></li>
+            <li class="list-group-item"> <a href="{{urlFor('download',{'id':link.id})}}" target="_blank">{{link.title}} {{link.quality}}</a></li>
           {% endif %}
         {% endfor %}
       </ul>
