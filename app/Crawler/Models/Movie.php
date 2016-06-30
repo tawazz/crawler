@@ -44,7 +44,7 @@ class Movie extends Model
   {
       $movies = Movie::where('url',$url)->count();
       if($movies > 0){
-        $expires = Carbon::createFromTimestamp(time() - 3600*12,'Australia/Perth');
+        $expires = Carbon::createFromTimestamp(time() - 3600*3,'Australia/Perth');
         $movies = Movie::where('url',$url)->get();
         if($movies[0]->updated_at->lt($expires)){
           foreach ($movies as $movie) {
