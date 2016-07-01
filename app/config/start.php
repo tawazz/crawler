@@ -1,6 +1,7 @@
 <?php
   require 'vendor/autoload.php';
   require 'app/config/db.php';
+  require 'app/config/settings.php';
   use Slim\Slim;
   use Goutte\Client;
   use GuzzleHttp\Client as HTTP;
@@ -18,8 +19,11 @@
   $view->parserExtensions = [new \Slim\Views\TwigExtension()];
 
   //dependancies
-  $app->container->singleton('CookieJar',function(){
-    return  new FileCookieJar('c:/wamp/www/crawler/cookies.txt',true);
+  $app->container->singleton('Settings',function(){
+    return  new Settings();
+  });
+  $app->container->singleton('CookieJar',function() use($app){
+    return  new FileCookieJar(Settings::cookiesFile,true);
   });
   $app->container->singleton('Client',function() use ($app){
     return  new HTTP([

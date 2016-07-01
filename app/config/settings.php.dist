@@ -1,0 +1,14 @@
+<?php
+
+  /**
+   * settings
+   */
+  class Settings
+  {
+    const cookiesFile = "path/to/cookies.txt";
+    const downloadsFolder = "path/to/Downloads/";
+
+  }
+
+
+ ?>

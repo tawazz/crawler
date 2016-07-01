@@ -10,15 +10,14 @@ $app->get('/results',function() use($app){
 })->name('results');
 
 $app->get('/view/:id',function($id) use ($app){
-  $movie = $app->Movie->find($id);
+  $movie = $app->Movie->findOrFail($id);
   if($app->Movie->movieExists($movie->url)){
     $links = $app->Link->where('movie_id',$id)->get();
     $app->render('home/result.php',["movie"=>$movie,"links"=>$links]);
   }else{
     crawl($app,$movie->url);
-    $movie = $app->Movie->where("url",$movie->url)->first();
-    $links = $app->Link->where('movie_id',$movie->id)->get();
-    $app->render('home/result.php',["movie"=>$movie,"links"=>$links]);
+    $movie = $app->Movie->where('url',$movie->url)->first();
+    $app->redirect($app->urlFor('view',['id'=>$movie->id]));
   }
 
 })->name('view');

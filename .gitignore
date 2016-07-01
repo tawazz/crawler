@@ -1,2 +1,5 @@
 vendor/
 Downloads/
+cookies.txt
+app/config/settings.php
+app/config/db.php

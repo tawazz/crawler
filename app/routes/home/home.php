@@ -34,9 +34,9 @@
 
     $link = $app->Link->find($id);
     $movie = $app->Movie->find($link->movie_id);
-    $movieFolder = str_replace([':','?',"/"],"",$movie->title);
-    $title = str_replace([':','?',"/"],"",$link->title);
-    $folder = 'E:/wamp/www/crawler/Downloads/'.$movieFolder;
+    $movieFolder = str_replace([':','?',"/",' '],"_",$movie->title);
+    $title = str_replace([':','?',"/",' '],"_",$link->title);
+    $folder = Settings::downloadsFolder.$movieFolder;
     if(!file_exists($folder)){
       mkdir($folder);
     }
