@@ -1,0 +1,8 @@
+<?php
+  $GLOBALS['config'] = [
+      'paths' => [
+          'cookies'=>'Disk:/path/to/crawler/cookies.txt',
+          'downloads' => 'Disk:/path/to/Downloads/folder/'
+      ]
+  ];
+ ?>

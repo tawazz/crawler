@@ -23,7 +23,7 @@
     return  new Settings();
   });
   $app->container->singleton('CookieJar',function() use($app){
-    return  new FileCookieJar(Settings::cookiesFile,true);
+    return  new FileCookieJar($app->Settings->get('paths.cookies'),true);
   });
   $app->container->singleton('Client',function() use ($app){
     return  new HTTP([

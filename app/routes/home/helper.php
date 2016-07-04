@@ -5,7 +5,7 @@ use GuzzleHttp\Cookie\SetCookie;
 
 function getLinks($app,$movie_title,$movie_image,$resolve_url,$episode_url,$ads_hash,$ads_token)
 {
-
+  set_time_limit(0); // unlimited max execution time
   $client = $app->Client;
   $response = $client->request('GET', $episode_url,[
     "headers"=>['User-Agent' => "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36 OPR/38.0.2220.31"],
@@ -14,7 +14,7 @@ function getLinks($app,$movie_title,$movie_image,$resolve_url,$episode_url,$ads_
   $crawler = new Crawler($response->getBody()->getContents());
   $crawler=$crawler->filter('.le-server > .les-content > a');
 
-    $episodes = $crawler->each(function ($node) use ($app,$movie_title,$movie_image,$ads_hash,$ads_token){
+    $episodes = $crawler->each(function ($node) use ($app,$movie_title,$movie_image,$ads_hash,$ads_token,$resolve_url){
       $episode_id = $node->attr('episode-id');
       $token = $node->attr('hash');
       $server = $node->attr('onclick');
@@ -22,7 +22,7 @@ function getLinks($app,$movie_title,$movie_image,$resolve_url,$episode_url,$ads_
       $content_url = "http://123movies.to/ajax/load_episode/{$episode_id}/{$token}";
       $client = $app->Client;
       $response = $client->request('GET',  $content_url,[
-        "headers"=>['User-Agent' => "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36 OPR/38.0.2220.31"],
+        "headers"=>['User-Agent' => "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36 OPR/38.0.2220.31","Referer"=>$resolve_url],
         "cookies"=>$app->CookieJar
       ]);
       //var_dump($response);
@@ -48,11 +48,13 @@ function getLinks($app,$movie_title,$movie_image,$resolve_url,$episode_url,$ads_
       return $movieContent;
   });
   $app->Movie->saveUrl($movie_title,$movie_image,$resolve_url,$episode_url,$episodes);
+  //var_dump($episodes);
   return $episodes;
 }
 
 function crawl($app,$url)
 {
+  set_time_limit(0); // unlimited max execution time
   $movies = [];
   if(!$app->Movie->movieExists($url)){
     $client = $app->Client;
