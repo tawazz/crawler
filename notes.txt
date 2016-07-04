@@ -1,2 +1,0 @@
-xpath to get ads_hash and token = /html/body/script[3]/text()
-set ads has and token to cookie;
