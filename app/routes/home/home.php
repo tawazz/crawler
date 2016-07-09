@@ -34,14 +34,14 @@
 
     $link = $app->Link->find($id);
     $movie = $app->Movie->find($link->movie_id);
-    $movieFolder = str_replace([':','?',"/",' '],"_",$movie->title);
-    $title = str_replace([':','?',"/",' '],"_",$link->title);
+    $movieFolder = str_replace([':','?',"/",'(',')',' ',],"_",$movie->title);
+    $title = str_replace([':','?',"/",'(',')',' '],"_",$link->title);
     $folder = $app->Settings->get('paths.downloads').$movieFolder;
     if(!file_exists($folder)){
       mkdir($folder);
     }
-    $cmd = 'wget -O '.$folder.'/'.$title.'.mp4 --no-cookies --header "Cookie:'. $movie->ads_hash."=". $movie->ads_token.'" --header "Cookie:__cfduid = d24101684cf98efe599dfcd70370065ec1467193730" --no-check-certificate '.$link->url .'2>&1';
-
+    $cmd = 'wget -O '.$folder.'/Episode'.$title.'.mp4 --no-check-certificate "'.$link->url .'" 2>&1';
+    var_dump($cmd);
     $WshShell = new COM("WScript.Shell");
     $oExec = $WshShell->Run($cmd,3, false);
     echo "Downloading {$title} to {$folder}";

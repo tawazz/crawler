@@ -29,7 +29,7 @@
     return  new HTTP([
       'allow_redirects' => true,
       'cookies' => $app->CookieJar,
-      //'proxy' => "localhost:8888"
+      'proxy' => "localhost:8888"
     ]);
   });
   $app->container->singleton('goute',function() use ($app){

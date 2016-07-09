@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class Movie extends Model
 {
 
-  public function saveUrl($movie_title,$movie_image,$resolve_url,$episode_url,$episodes)
+  public function saveUrl($resolve_url,$movie_title,$movie_image,$episodes)
   {
     $movies = Movie::where('url',$resolve_url)->count();
     if($movies < 1 )
@@ -19,23 +19,26 @@ class Movie extends Model
       $movie->title = $movie_title;
       $movie->image = $movie_image;
       $movie->url =$resolve_url;
-      $movie->episode_url = $episode_url;
-      $movie->ads_hash = $episodes[0]["ads_hash"];
-      $movie->ads_token = $episodes[0]["ads_token"];
       $movie->save();
       foreach ($episodes as $episode) {
-        foreach ($episode["info"] as $info) {
-          $link = new Link();
-          $link->movie_id = $movie->id;
-          $link->content_url= $episode["contentUrl"];
-          $link->url = $info["file_url"];
-          $link->quality = $info["quality"];
-          $link->type = $info["type"];
-          $link->title = $info['title'];
-          if($link->quality!= null){
-            $link->save();
-          }
-        }
+        $link = new Link();
+        $link->movie_id = $movie->id;
+        $link->url = $episode["url"];
+        $link->title = $episode['title'];
+        $link->save();
+      }
+    }else{
+      $movie = Movie::where('url',$resolve_url)->first();
+      $links = Link::where('movie_id',$movie->id)->get();
+      foreach ($links as $link) {
+        $link->delete();
+      }
+      foreach ($episodes as $episode) {
+        $link = new Link();
+        $link->movie_id = $movie->id;
+        $link->url = $episode["url"];
+        $link->title = $episode['title'];
+        $link->save();
       }
     }
   }
@@ -45,11 +48,10 @@ class Movie extends Model
       $movies = Movie::where('url',$url)->count();
       if($movies > 0){
         $expires = Carbon::createFromTimestamp(time() - 3600*3,'Australia/Perth');
-        $movies = Movie::where('url',$url)->get();
-        if($movies[0]->updated_at->lt($expires)){
-          foreach ($movies as $movie) {
-              $movie->delete();
-          }
+        $movie = Movie::where('url',$url)->first();
+        if($movie->updated_at->lt($expires)){
+          $movie->updated_at = time();
+          $movie->save();
           return false;
         }
         return true;

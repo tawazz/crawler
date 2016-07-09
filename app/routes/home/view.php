@@ -16,8 +16,8 @@ $app->get('/view/:id',function($id) use ($app){
     $app->render('home/result.php',["movie"=>$movie,"links"=>$links]);
   }else{
     crawl($app,$movie->url);
-    $movie = $app->Movie->where('url',$movie->url)->first();
-    $app->redirect($app->urlFor('view',['id'=>$movie->id]));
+    $links = $app->Link->where('movie_id',$id)->get();
+    $app->render('home/result.php',["movie"=>$movie,"links"=>$links]);
   }
 
 })->name('view');
@@ -27,7 +27,11 @@ $app->get('/add',function() use ($app){
 })->name('add');
 
 $app->get('/about',function() use ($app){
-  $app->render('home/home.php');
+  $app->render('home/iframe.php');
 })->name('about');
+
+$app->get('/test',function() use ($app){
+  $app->render('home/xmovies.php');
+})->name('test');
 
  ?>
